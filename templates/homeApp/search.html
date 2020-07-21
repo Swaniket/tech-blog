@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+<!--The home string will get copied to base.html & render the modified version-->
+{% block title %} Search Results {% endblock title %}
+
+{% block blogActive %} active {% endblock blogActive %}
+
+{% block body %}
+
+<div class="container my-5">
+<h3> Search results for <b>'{{query}}'</b>:- </h3>
+<br>
+<div class="row mb-2">
+{% if allPosts|length < 1 %}
+<div class="container">
+    <p>Your search query: <b>'{{query}}'</b> did not match with any post.</p>
+    <p>Suggetions:</p>
+    <ul>
+        <li id = "text">Try a different keyword</li>
+    </ul>
+    
+</div>
+
+{% endif %}
+
+
+{% for post in allPosts %}
+    <div class="col-md-6">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">Article by: {{post.author}}</strong>
+          <h3 class="mb-0">{{post.title}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+          <p class="card-text mb-auto">{{post.content | truncatechars:70}}</p>
+          <br>
+          <p><a class="btn btn-primary" href="/blog/{{post.slug}}" role="button" style = "border-radius: 40px;">Continue reading »</a></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+  
+</div>
+
+
+
+
+{% endblock body %}

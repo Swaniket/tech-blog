@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'basedark.css' %}">
+
+<!--The home string will get copied to base.html & render the modified version-->
+{% block title %} Tech Blog {% endblock title %}
+
+{% block homeActive %} active {% endblock homeActive %}
+
+{% block body %}
+<!--style="background:transparent !important"-->
+<div class="container ">
+<hr>
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Welcome to Tech Blog</h1>
+      <br>
+      <p>An original home for technology news and reviews, Tech Blog produces the internet's most compelling
+        reviews, features and breaking news about the people, products and ideas shaping our world.</p>
+      <br>
+      <p><a class="btn btn-primary btn-lg" href="/blog" role="button" style="border-radius: 5px;"><span>Go to Blog</span></a></p>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <hr class="my-4">
+  <h3 class="display-5">
+    <center>What's happening? </center>
+  </h3>
+  <hr class="my-4">
+  <br>
+  <br>
+  <div class="row mb-2">
+    {% for post in allPosts %}
+    <div class="col-md-4">
+      <div class="row no-gutters rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="card col p-4 d-flex flex-column position-static" >
+        <div id = "updateBox">
+        <h2>{{post.title}}</h2>
+          <p>{{post.content|safe | truncatechars:70}} </p>
+          <p><a class="btn btn-primary" href="/blog/{{post.slug}}" role="button" style="border-radius: 5px;"><span>View Post</span></a></p>
+        </div>
+          
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock body %}

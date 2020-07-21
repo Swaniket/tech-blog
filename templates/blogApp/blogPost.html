@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load extras%}
+
+<!--The home string will get copied to base.html & render the modified version-->
+{% block title %} Tech Blog | Post {% endblock title %}
+
+{% block blogActive %} active {% endblock blogActive %}
+
+{% block body %}
+<!-- /.blog-post -->
+<div class="container my-4">
+  <div class="blog-post ">
+    <hr>
+    <h2 class="blog-post-title">
+      <center>{{post.title}}</center>
+    </h2>
+    <hr>
+    <p class="blog-post-meta">
+      <center class="text-muted">{{post.timeStamp | naturaltime}} <b>·</b> by <a
+          style="color: #F9AA33">{{post.author}}</a> <b>·</b> (<span>{{post.views}} views</span>)</center>
+    </p>
+
+    <div class="p-4 mb-3 bg-dark rounded">
+      <p style="word-wrap : break-word;">{{post.content|safe}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <hr>
+  <h4>
+    <center>Comments({{comments.count}})</center>
+  </h4>
+  <hr>
+
+  {% for comment in comments %}
+  <div class="media container row my-3">
+    <img src="/static/img/userImg.png" class="mr-1 col-md-1" alt="...">
+    <div class="media-body col-md-11">
+      <small class="mt-0 rounded badge badge-primary"><b>{{comment.user.first_name}}
+          {{comment.user.last_name}}</b></small>
+      <small><span class="badge badge-light">{{comment.timestamp | naturaltime}}</span></small>
+      <br>
+      <small class="mt-0 " style="color : gray">(@{{comment.user.username}}) </small>
+
+      <div class="bg-dark rounded" style="color: white;"> {{comment.comment}} </div>
+      <br>
+      <div class="reply mx-0">
+        <p>
+          <button class="btn btn-outline-primary" type="button" data-toggle="collapse"
+            data-target="#replyBox{{comment.sno}}" aria-expanded="false" aria-controls="replyBox{{comment.sno}}">
+            {% with dict=replyDict|get_val:comment.sno %}
+            {{dict|length}}
+            {% endwith %} Reply
+          </button>
+        </p>
+        <div class="collapse" id="replyBox{{comment.sno}}">
+          <div class="card card-body">
+            {% for reply in replyDict|get_val:comment.sno %}
+            <div class="media container row my-3">
+              <img src="/static/img/userImg.png" class="mr-1 col-md-1" alt="...">
+              <div class="media-body col-md-11">
+                <small class="mt-0 rounded badge badge-primary"><b>{{reply.user.first_name}} {{reply.user.last_name}}
+                  </b></small>
+                <small><span class="badge badge-light">{{reply.timestamp | naturaltime}}</span></small>
+                <br>
+                <small class="mt-0 " style="color : gray">(@{{reply.user.username}}) </small>
+                <div class="bg-dark rounded" style="color:white;"> {{reply.comment}} </div>
+              </div>
+            </div>
+            {% endfor %}
+            <!--Reply textbox-->
+            {% if user.is_authenticated %}
+            <form action="/blog/postComment/" method="post">
+              {% csrf_token %}
+              <div class="container-fluid input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter reply here" aria-label="comment"
+                  aria-describedby="comment" name="comment">
+                <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="submit" value="submit"
+                    style="border-radius: 5px;">Reply</button>
+                  <input type="hidden" name="postSno" value="{{post.sno}}">
+                </div>
+              </div>
+            </form>
+            {% else %}
+            <form>
+              <div class="container-fluid input-group mb-3">
+                <input type="text" class="form-control" placeholder="Login to post comment"
+                  aria-label="Recipient's username" aria-describedby="button-addon2" disabled>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="submit" value="submit" style="border-radius: 5px;"
+                    disabled>Post</button>
+                </div>
+              </div>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+  {% endfor %}
+
+  <hr>
+  <h5>
+    <center id="text">Post comment</center>
+  </h5>
+  <hr>
+  <br>
+  <div class="my-2">
+    {% if user.is_authenticated %}
+    <form action="/blog/postComment/" method="post">
+      {% csrf_token %}
+      <div class="container-fluid input-group mb-3">
+        <input type="text" class="form-control" placeholder="Enter comment here" aria-label="Recipient's username"
+          aria-describedby="button-addon2" name="comment">
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="submit" value="submit" style="border-radius: 5px;">Post</button>
+          <input type="hidden" name="postSno" value="{{post.sno}}">
+          <input type="hidden" name="parentSno" value="">
+        </div>
+      </div>
+    </form>
+    {% else %}
+    <form>
+      <div class="container-fluid input-group mb-3">
+        <input type="text" class="form-control" placeholder="Login to post comment" aria-label="Recipient's username"
+          aria-describedby="button-addon2" disabled>
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="submit" value="submit" style="border-radius: 5px;"
+            disabled>Post</button>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<br>
+{% endblock body %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+<!--The home string will get copied to base.html & render the modified version-->
+{% block title %} Tech Blog | Home {% endblock title %}
+
+{% block js %}
+<script>
+  let previews = document.getElementsByClassName('preview')
+  Array.from(previews).forEach((element) => {
+    element.innerHTML = element.innerText
+  })
+</script>
+{% endblock js %}
+
+{% block blogActive %} active {% endblock blogActive %}
+
+{% block body %}
+
+<div class="container my-5">
+  <h3>Articles by Tech Blog: </h3>
+  <hr>
+  <br>
+  <div class="row mb-2">
+    {% for post in allPosts %}
+    <div class="col-md-6">
+      <div class="row no-gutters rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="card col p-4 d-flex flex-column position-static box-shadow-hover">
+          <strong class="d-inline-block mb-2 text-primary">Article by: {{post.author}}</strong>
+          <h3 class="mb-0">{{post.title}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp | naturaltime}}</div>
+          <p class="card-text mb-auto">
+          <div class="preview">{{post.content|safe | truncatechars:70}}</div>
+          </p>
+          <p><a class="btn btn-primary" href="/blog/{{post.slug}}" role="button"
+              style="border-radius: 5px;"><span>Continue reading</span></a></p>
+        </div>
+      </div>
+      <hr>
+    </div>
+
+    {% endfor %}
+  </div>
+
+</div>
+
+
+
+
+{% endblock body %}

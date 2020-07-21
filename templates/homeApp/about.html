@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<!--The home string will get copied to base.html & render the modified version-->
+{% block title %} About {% endblock title %}
+
+{% block aboutActive %} active {% endblock aboutActive %}
+
+{% block body %}
+<div class="container ">
+<hr>
+  <div class="jumbotron">
+    <div class="container">
+      <h3 class="display-4">Hi! this is Swaniket.</h3>
+      <hr class="my-4">
+      <p class="lead">This is my first full-stack blogging application using the following technology stack- </p>
+      <ul>
+        <li id = 'text'>Frontend- HTML, CSS, JavaScript, Bootstrap</li>
+        <li id = 'text'>Backend- Django</li>
+        <li id = 'text'>Database- SQLite</li>
+      </ul>
+      <hr class="my-4">
+      <p class="lead">The main features that I implemented in this projects-</p>
+      <ul>
+        <li id = 'text'>Searching </li>
+        <li id = 'text'>Comments</li>
+        <li id = 'text'>Reply to comments</li>
+        <li id = 'text'>Fully functional authentication system with signup and login.</li>
+        <li id = 'text'>Integration with Tiny MCE(Rich text editor) to help create customized content.</li>
+        <li id = 'text'>Contact us.</li>
+        <li id = 'text'>Views Counter.</li>
+      </ul>
+      <br>
+      <p><a class="btn btn-primary btn-lg" href="/" role="button" style="border-radius: 5px;"><span>Go to Home</span></a></p>
+      <hr class="my-4">
+    </div>
+  </div>
+</div>
+{% endblock body %}
