@@ -14,4 +14,5 @@ The features that I implemented:
 7. Contact us.
 
 I tried to customize bootstrap's default looks and to gave it a very unique dark mode looks.
-I know it's subjective but definitely let me know what do think about this. 
+Take a look at the demo video & leave a like if you liked it. 
+[Open in linkedin](https://www.linkedin.com/feed/update/urn:li:activity:6691342508447952896/)
